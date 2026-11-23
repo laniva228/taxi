@@ -86,15 +86,15 @@ public class TaxiDAO {
 
             statement.setInt(1, id);
 
-            ResultSet result = statement.executeQuery();
-
-            while (result.next()) {
-                System.out.println("ID: " + result.getInt("id"));
-                System.out.println("Водитель ID: " + result.getInt("driver_id"));
-                System.out.println("Пассажир ID: " + result.getInt("passenger_id"));
-                System.out.println("Откуда: " + result.getString("from_address"));
-                System.out.println("Куда: " + result.getString("to_address"));
-                System.out.println("Цена: " + result.getDouble("price"));
+            try (ResultSet result = statement.executeQuery()) {
+                while (result.next()) {
+                    System.out.println("ID: " + result.getInt("id"));
+                    System.out.println("Водитель ID: " + result.getInt("driver_id"));
+                    System.out.println("Пассажир ID: " + result.getInt("passenger_id"));
+                    System.out.println("Откуда: " + result.getString("from_address"));
+                    System.out.println("Куда: " + result.getString("to_address"));
+                    System.out.println("Цена: " + result.getDouble("price"));
+                }
             }
 
         } catch (SQLException e) {
