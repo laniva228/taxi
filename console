@@ -1,0 +1,42 @@
+CREATE DATABASE IF NOT EXISTS taxi_db;
+USE taxi_db;
+
+CREATE USER IF NOT EXISTS 'alena'@'localhost' IDENTIFIED BY 'aleno4kaa2288A@';
+GRANT ALL PRIVILEGES ON taxi_db.* TO 'alena'@'localhost';
+FLUSH PRIVILEGES;
+
+CREATE TABLE drivers (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    phone VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE cars (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    driver_id INT NOT NULL,
+    model VARCHAR(50) NOT NULL,
+    plate_number VARCHAR(20) NOT NULL,
+    FOREIGN KEY (driver_id) REFERENCES drivers(id) ON DELETE CASCADE
+);
+
+CREATE TABLE passengers (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    phone VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE trips (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    driver_id INT NOT NULL,
+    passenger_id INT NOT NULL,
+    from_address VARCHAR(150) NOT NULL,
+    to_address VARCHAR(150) NOT NULL,
+    price DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (driver_id) REFERENCES drivers(id),
+    FOREIGN KEY (passenger_id) REFERENCES passengers(id)
+);
+
+INSERT INTO drivers (name, phone) VALUES ('Азамат', '+77011112233'), ('Данияр', '+77024445566');
+INSERT INTO cars (driver_id, model, plate_number) VALUES (1, 'Hyundai Accent', '123ABC02'), (2, 'Kia Rio', '777XYZ02');
+INSERT INTO passengers (name, phone) VALUES ('Алина', '+77057778899'), ('Мадина', '+77079990011');
+INSERT INTO trips (driver_id, passenger_id, from_address, to_address, price) VALUES (1, 1, 'Абая 10', 'Достык 50', 1500.00);
